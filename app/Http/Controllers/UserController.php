@@ -5,20 +5,31 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function index()
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    public function list()
     {
         $users = User::all();
 
         return view('user.view', ['users' => $users]);
     }
 
+    public function currentUser()
+    {
+        $user = Auth::user();
+        dd($user->id);
+    }
+
     public function showRegistrationForm()
     {
-        return view('auth.register');
+        return view('user.register');
     }
 
     public function register(Request $request)
@@ -45,6 +56,6 @@ class UserController extends Controller
         $user->role = 'ROLE_USER';
         $user->save();
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.list');
     }
 }

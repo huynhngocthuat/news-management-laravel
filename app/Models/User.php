@@ -39,4 +39,9 @@ class User extends Authenticatable
             $user->id = Str::uuid()->toString();
         });
     }
+
+    public function news()
+    {
+        return $this->hasMany(News::class);
+    }
 }
