@@ -11,16 +11,17 @@
 <body>
     <div class="row justify-content-center align-items-center">
         <div class="col-5">
-            <h2>Create news</h2>
-            <form method="POST" action="{{ route('news.store') }}">
+            <h2>Update news</h2>
+            <form method="POST" action="{{ route('news.update', $news->id) }}">
                 @csrf
+                @method('PUT')
                 <label for="title">Title:</label>
-                <input type="text" id="title" name="title" required><br><br>
+                <input type="text" id="title" name="title" value="{{ $news->title }}" required><br><br>
 
                 <label for="content">Content:</label>
-                <input type="text" id="content" name="content" required><br><br>
+                <input type="text" id="content" name="content" value="{{ $news->content }}" required><br><br>
 
-                <button type="submit" class="btn btn-primary">Create</button>
+                <button type="submit" class="btn btn-primary">Update</button>
             </form>
         </div>
     </div>
