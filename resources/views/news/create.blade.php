@@ -20,6 +20,17 @@
                 <label for="content">Content:</label>
                 <input type="text" id="content" name="content" required><br><br>
 
+                <label for="category">Category:</label>
+                <select id="category" name="category" class="form-select">
+                    <option value="">Select a category</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" {{ $category->id == $selectedCategory ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
+                <br><br>
+
                 <button type="submit" class="btn btn-primary">Create</button>
             </form>
         </div>
