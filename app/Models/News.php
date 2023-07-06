@@ -14,7 +14,7 @@ class News extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'id', 'title', 'content', 'user_id'
+        'id', 'title', 'content', 'user_id', 'category_id'
     ];
 
     protected static function boot()
@@ -29,5 +29,10 @@ class News extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }

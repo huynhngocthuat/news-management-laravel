@@ -32,6 +32,7 @@
         <tr>
             <th>Title</th>
             <th>Content</th>
+            <th>Category</th>
             <th>Name User</th>
             <th>Action</th>
         </tr>
@@ -39,6 +40,7 @@
         <tr>
             <td>{{ $news->title }}</td>
             <td>{{ $news->content }}</td>
+            <td>{{ $news->category->name }}</td>
             <td>{{ $news->user->name }}</td>
             <td>
                 <a href="{{ route('news.edit', $news->id) }}" class="btn btn-outline-warning">Edit</a>

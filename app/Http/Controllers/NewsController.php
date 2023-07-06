@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\News;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,7 +23,10 @@ class NewsController extends Controller
 
     public function create()
     {
-        return view('news.create');
+        $categories = Category::all();
+        $selectedCategory = null;
+
+        return view('news.create', compact('categories', 'selectedCategory'));
     }
 
     public function store(Request $request)
@@ -30,10 +34,12 @@ class NewsController extends Controller
         $user_id = Auth::user()->id;
         $title = $request->input('title');
         $content = $request->input('content');
+        $category_id = $request->input('category');
 
         $news = new News();
         $news->title = $title;
         $news->content = $content;
+        $news->category_id = $category_id;
         $news->user_id = $user_id;
         $news->save();
 
@@ -50,10 +56,12 @@ class NewsController extends Controller
     {
         $title = $request->input('title');
         $content = $request->input('content');
+        $category_id = $request->input('category');
 
         $news = News::find($id);
         $news->title = $title;
         $news->content = $content;
+        $news->category_id = $category_id;
         $news->save();
 
         return redirect()->route('news.index');
