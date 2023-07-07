@@ -26,23 +26,27 @@
 </head>
 
 <body>
-    <h2>User List</h2>
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Is Enabled</th>
-            <th>Role</th>
-        </tr>
-        @foreach ($users as $user)
-        <tr>
-            <td>{{ $user->name }}</td>
-            <td>{{ $user->email }}</td>
-            <td>{{ $user->isEnabled ? 'Yes' : 'No' }}</td>
-            <td>{{ $user->role }}</td>
-        </tr>
-        @endforeach
-    </table>
+    @extends('layout')
+    @section('content')
+        <h2>User List</h2>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Is Enabled</th>
+                <th>Role</th>
+            </tr>
+            @foreach ($users as $user)
+            <tr>
+                <td>{{ $user->name }}</td>
+                <td>{{ $user->email }}</td>
+                <td>{{ $user->isEnabled ? 'Yes' : 'No' }}</td>
+                <td>{{ $user->role }}</td>
+            </tr>
+            @endforeach
+        </table>
+        <a href="{{ route('news.index') }}" class="btn btn-primary mt-3">View News</a>
+    @endsection
 </body>
 
 </html>

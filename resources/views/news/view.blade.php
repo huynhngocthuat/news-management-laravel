@@ -26,20 +26,30 @@
 </head>
 
 <body>
+    @extends('layout')
+    @section('content')
     <a href="{{ route('news.create') }}" class="btn btn-primary">Create News</a>
     <h2>News List</h2>
-    <div>
-        <label for="category-filter">Filter by Category:</label>
-        <select id="category-filter" onchange="applyCategoryFilter(this.value)">
+
+    <div class="mb-3">
+        <label for="category-filter" class="form-label">Filter by Category:</label>
+        <select id="category-filter" class="form-select" onchange="applyCategoryFilter(this.value)">
             <option value="">All Categories</option>
             @foreach ($categories as $category)
-                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                <option value="{{ $category->id }}" {{ $category->id == $selectedCategory ? 'selected' : '' }}>
+                    {{ $category->name }}
+                </option>
             @endforeach
         </select>
-        <label for="title-search">Search by Title:</label>
-        <input type="text" id="title-search" placeholder="Enter title">
-        <button onclick="searchByTitle()">Search</button>
     </div>
+
+    <div class="mb-3">
+        <label for="title-search" class="form-label">Search by Title:</label>
+        <input type="text" id="title-search" class="form-control" placeholder="Enter title">
+    </div>
+
+    <button onclick="searchByTitle()" class="btn btn-primary mb-3">Search</button>
+
     <table>
         <tr>
             <th>Title</th>
@@ -61,6 +71,43 @@
         </tr>
         @endforeach
     </table>
+    @endsection
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        function applyCategoryFilter(categoryId) {
+            // Redirect to the same page with the selected category filter
+            if (categoryId) {
+                window.location.href = '{{ route('news.index') }}?category=' + categoryId;
+            } else {
+                window.location.href = '{{ route('news.index') }}';
+            }
+        }
+
+        function searchByTitle() {
+            var title = document.getElementById('title-search').value;
+            // Redirect to the same page with the search query parameter
+            window.location.href = '{{ route('news.index') }}?search=' + encodeURIComponent(title);
+        }
+
+        function deleteNews(newsId) {
+            console.log(newsId);
+            // Confirm deletion
+            if (!confirm("Are you sure you want to delete this news item?")) {
+                return false;
+            }
+
+            // Send the delete request
+            axios.delete('/news/' + newsId)
+                .then(response => {
+                    // Handle the response (e.g., show success message, update the UI)
+                    location.reload();
+                })
+                .catch(error => {
+                    // Handle the error (e.g., show error message, handle specific errors)
+                    console.error(error);
+                });
+        }
+    </script>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>

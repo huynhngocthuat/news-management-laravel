@@ -32,6 +32,9 @@
                     {{ $errors->first('error') }}
                 </div>
                 @endif
+                <div class="mt-3">
+                    <p>Don't have an account? <a href="{{ route('users.register') }}">Register</a></p>
+                </div>
             </div>
         </div>
     </div>
