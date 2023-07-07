@@ -14,6 +14,7 @@
             <h2>Update news</h2>
             <form method="POST" action="{{ route('news.update', $news->id) }}">
                 @csrf
+                @method('PUT')
                 <label for="title">Title:</label>
                 <input type="text" id="title" name="title" required><br><br>
 
@@ -24,7 +25,7 @@
                 <select id="category" name="category" class="form-select">
                     <option value="">Select a category</option>
                     @foreach ($categories as $category)
-                        <option value="{{ $category->id }}" {{ $category->id == $selectedCategory ? 'selected' : '' }}>
+                        <option value="{{ $category->id }}">
                             {{ $category->name }}
                         </option>
                     @endforeach
@@ -35,7 +36,6 @@
             </form>
         </div>
     </div>
-
 </body>
 
 </html>

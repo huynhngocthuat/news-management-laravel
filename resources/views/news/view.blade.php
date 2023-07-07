@@ -28,6 +28,18 @@
 <body>
     <a href="{{ route('news.create') }}" class="btn btn-primary">Create News</a>
     <h2>News List</h2>
+    <div>
+        <label for="category-filter">Filter by Category:</label>
+        <select id="category-filter" onchange="applyCategoryFilter(this.value)">
+            <option value="">All Categories</option>
+            @foreach ($categories as $category)
+                <option value="{{ $category->id }}">{{ $category->name }}</option>
+            @endforeach
+        </select>
+        <label for="title-search">Search by Title:</label>
+        <input type="text" id="title-search" placeholder="Enter title">
+        <button onclick="searchByTitle()">Search</button>
+    </div>
     <table>
         <tr>
             <th>Title</th>
@@ -40,7 +52,7 @@
         <tr>
             <td>{{ $news->title }}</td>
             <td>{{ $news->content }}</td>
-            <td>{{ $news->category->name }}</td>
+            <td>{{ $news->category ? $news->category->name : 'N/A' }}</td>
             <td>{{ $news->user->name }}</td>
             <td>
                 <a href="{{ route('news.edit', $news->id) }}" class="btn btn-outline-warning">Edit</a>
@@ -52,6 +64,19 @@
 </body>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
+    function applyCategoryFilter(categoryId) {
+        // Redirect to the same page with the selected category filter
+        if (categoryId) {
+            window.location.href = '{{ route('news.index') }}?category=' + categoryId;
+        } else {
+            window.location.href = '{{ route('news.index') }}';
+        }
+    }
+    function searchByTitle() {
+        var title = document.getElementById('title-search').value;
+        // Redirect to the same page with the search query parameter
+        window.location.href = '{{ route('news.index') }}?search=' + encodeURIComponent(title);
+    }
     function deleteNews(newsId) {
         console.log(newsId);
         // Confirm deletion

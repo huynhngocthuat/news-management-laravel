@@ -14,11 +14,26 @@ class NewsController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $user_id = Auth::user()->id;
-        $newses = News::where('user_id', $user_id)->get();
-        return view('news.view', ['newses' => $newses]);
+        $category_id = $request->query('category'); // Get selected category ID from query parameter
+        $search = $request->query('search');
+
+        $newsesQuery = News::where('user_id', $user_id);
+
+        if ($category_id) {
+            $newsesQuery->where('category_id', $category_id);
+        }
+
+        if ($search) {
+            $newsesQuery->where('title', 'LIKE', "%{$search}%");
+        }
+
+        $newses = $newsesQuery->get();
+        $categories = Category::all();
+
+        return view('news.view', ['newses' => $newses, 'categories' => $categories, 'selectedCategory' => $category_id]);
     }
 
     public function create()
@@ -49,7 +64,8 @@ class NewsController extends Controller
     public function edit($id)
     {
         $news = News::find($id);
-        return view('news.update', ['news' => $news]);
+        $categories = Category::all();
+        return view('news.update', compact('news', 'categories'));
     }
 
     public function update(Request $request, $id)
