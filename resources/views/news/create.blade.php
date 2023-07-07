@@ -21,7 +21,7 @@
                 <input type="text" id="content" name="content" required><br><br>
 
                 <label for="category">Category:</label>
-                <select id="category" name="category" class="form-select">
+                <select id="category" name="category" class="form-select" required="required">
                     <option value="">Select a category</option>
                     @foreach ($categories as $category)
                         <option value="{{ $category->id }}" {{ $category->id == $selectedCategory ? 'selected' : '' }}>

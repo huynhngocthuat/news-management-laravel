@@ -16,16 +16,16 @@
                 @csrf
                 @method('PUT')
                 <label for="title">Title:</label>
-                <input type="text" id="title" name="title" required><br><br>
+                <input type="text" id="title" name="title" value="{{ $news->title }}" required><br><br>
 
                 <label for="content">Content:</label>
-                <input type="text" id="content" name="content" required><br><br>
+                <input type="text" id="content" name="content" value="{{ $news->content }}" required><br><br>
 
                 <label for="category">Category:</label>
-                <select id="category" name="category" class="form-select">
+                <select id="category" name="category" class="form-select" required="required">
                     <option value="">Select a category</option>
                     @foreach ($categories as $category)
-                        <option value="{{ $category->id }}">
+                        <option value="{{ $category->id }}" {{ $category->id == $news->category_id ? 'selected' : '' }}>
                             {{ $category->name }}
                         </option>
                     @endforeach
